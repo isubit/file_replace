@@ -1,0 +1,5 @@
+name = File Replace
+description = Replaces existing files when uploading a new file with the same name
+version = 7.x-1.0
+core = 7.x
+dependencies[] = file

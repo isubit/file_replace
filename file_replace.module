@@ -6,9 +6,36 @@
 function file_replace_field_widget_form_alter(&$element, &$form_state, $context) {
   if ($context['field']['type'] == 'file') {
     foreach (element_children($element) as $key) {
-      $element[$key]['#value_callback'] = 'file_replace_managed_file_value';
+      $element[$key]['#value_callback'] = 'file_replace_field_widget_value';
     }
   }
+}
+
+/**
+ * Modified version of file_field_widget_value that
+ * calls file_replace_managed_file_value
+ */
+function file_replace_field_widget_value($element, $input = FALSE, $form_state) {
+  if ($input) {
+    // Checkboxes lose their value when empty.
+    // If the display field is present make sure its unchecked value is saved.
+    $field = field_widget_field($element, $form_state);
+    if (empty($input['display'])) {
+      $input['display'] = $field['settings']['display_field'] ? 0 : 1;
+    }
+  }
+
+  // We depend on the managed file element to handle uploads.
+  $return = file_replace_managed_file_value($element, $input, $form_state);
+
+  // Ensure that all the required properties are returned even if empty.
+  $return += array(
+    'fid' => 0,
+    'display' => 1,
+    'description' => '',
+  );
+
+  return $return;
 }
 
 /**

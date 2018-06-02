@@ -132,7 +132,7 @@ function file_replace_managed_file_save_upload($element, $form_state) {
     return FALSE;
   }
 
-  if (!$file = file_save_upload($upload_name, $element['#upload_validators'], $destination, FILE_EXISTS_RENAME)) {
+  if (!$file = file_save_upload($upload_name, $element['#upload_validators'], $destination, FILE_EXISTS_REPLACE)) {
     watchdog('file', 'The file upload failed. %upload', array('%upload' => $upload_name));
     form_set_error($upload_name, t('The file in the !name field was unable to be uploaded.', array('!name' => $element['#title'])));
     return FALSE;

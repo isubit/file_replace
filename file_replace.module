@@ -12,7 +12,8 @@ function file_replace_field_widget_form_alter(&$element, &$form_state, $context)
 }
 
 /**
- * Checks if the file being uploaded matches the name of a file
+ * Checks if the new file matches an existing file on the node and prevents
+ * name mangling and a new file from being created if this is the case
  */
 function file_replace_overwrite_existing($file, $context) {
   $destination_directory = drupal_dirname($file->destination);
